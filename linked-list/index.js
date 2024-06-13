@@ -45,7 +45,7 @@ class linkedList {
         if (this.head == null) return 0; // List empty
         // List not empty
         let temp = this.head;
-        let cnt = 0;
+        let cnt = 1;
         while (temp.next != null) {
             cnt++;
             temp = temp.next;
@@ -54,12 +54,13 @@ class linkedList {
     }
 
     // Return first element in list
-    head() {
+    getHead() {
+        if (this.head == null) return null;
         return this.head;
     }
 
     // Return last element in list
-    tail() {
+    getTail() {
         if (this.head == null) return null; // List empty
         let temp = this.head;
         while (temp.next != null) {
@@ -151,7 +152,12 @@ let list = new linkedList;
 list.append(1);
 list.append(2);
 list.prepend(10);
-list.pop();
-list.pop();
-list.pop();
 console.log(list.toString());
+console.log(list.getHead());
+console.log(list.getTail());
+console.log(list.size());
+console.log(list.at(1));
+console.log(list.contains(0));
+console.log(list.find(2));
+
+
