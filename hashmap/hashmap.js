@@ -1,9 +1,4 @@
-class Node {
-    constructor(key,val=null) {
-        this.key = key;
-        this.val = val;
-    }
-}
+import {Node, LinkedList} from "./linked-list.js";
 
 class HashMap {
     constructor() {
@@ -57,7 +52,8 @@ class HashMap {
     }
 
     has(key) {
-        return (this.table[this.hash(key)] != null && this.table[this.hash(key)].key == key);
+        return (this.table[this.hash(key)] != null && 
+        this.table[this.hash(key)].contains(key));
     }
 
     remove(key) {
