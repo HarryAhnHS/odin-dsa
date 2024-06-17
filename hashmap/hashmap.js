@@ -1,3 +1,4 @@
+// Hashmap - Buckets as LinkedLists, collision control
 class HashMap {
     constructor() {
         this.table = new Array(16).fill(null);
@@ -24,12 +25,13 @@ class HashMap {
         this.table = new Array(this.capacity).fill(null);
         old.forEach((bucket) => {
             if (bucket != null) {
-                this.set(bucket.key, bucket.val);
+                bucket.getEntries().forEach((pair) => {
+                    this.set(pair[0], pair[1]);
+                });
             }
         })
 
-        console.log('resizing to :' + this.capacity);
-
+        console.log('Resizing to :' + this.capacity);
     }
 
     set(key, value) {
@@ -49,6 +51,7 @@ class HashMap {
         }
 
         console.log(key + ' hashed to ' + this.hash(key));
+        console.log(this.hash(key) + "'s LinkedList: " + this.table[this.hash(key)].toString());
 
         // Grow if capacity is loaded
         if (this.length() > this.load_factor * this.capacity) {
@@ -72,6 +75,7 @@ class HashMap {
     remove(key) {
         if (this.has(key)) {
             this.table[this.hash(key)].remove(key);
+            console.log("Removing key: " + key);
             return true;
         }
         return false;
@@ -88,9 +92,9 @@ class HashMap {
     }
 
     clear() {
-        this.table.forEach((bucket) => {
-            bucket = null;
-        })
+        this.table = new Array(16).fill(null);
+        this.capacity = this.table.length;
+        console.log("Cleared hashmap");
     }
 
     keys() {

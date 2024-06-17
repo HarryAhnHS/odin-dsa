@@ -199,7 +199,7 @@ class LinkedList {
         let temp = this.head;
         let string = "";
         while (temp != null) {
-            string += `( ${temp.val} ) => `;
+            string += `( ${temp.key}, ${temp.val} ) => `;
             temp = temp.next;
         }
         string += 'null';
