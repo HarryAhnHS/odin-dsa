@@ -132,6 +132,66 @@ class LinkedList {
         return null;
     }
 
+    remove(key) {
+        let temp = this.head;
+        let prev = null;
+        if (this.head.key == key) {
+            // EDGE If key is first element
+            this.head = this.head.next;
+        }
+        else {
+            while (temp != null) {
+                if (temp.key == key) {
+                    prev.next = temp.next;
+                    return true;
+                }
+                prev = temp;
+                temp = temp.next;
+            }
+        }
+        return false;
+    }
+
+    getKeys() {
+        if (this.head == null) return "Empty"; // List empty
+        // List not empty
+        let temp = this.head;
+        let arr = [];
+        while (temp != null) {
+            arr.push(temp.key);
+            temp = temp.next;
+        }
+        return arr;
+    }
+
+    getVals() {
+        if (this.head == null) return "Empty"; // List empty
+        // List not empty
+        let temp = this.head;
+        let arr = [];
+        while (temp != null) {
+            arr.push(temp.val);
+            temp = temp.next;
+        }
+        return arr;
+    }
+
+    getEntries() {
+        if (this.head == null) return "Empty"; // List empty
+        // List not empty
+        let temp = this.head;
+        let arr = [];
+        while (temp != null) {
+            let pair = [];
+            pair.push(temp.key);
+            pair.push(temp.val);
+            arr.push(pair);
+
+            temp = temp.next;
+        }
+        return arr;
+    }
+
     // Represent list to string
     toString() {
         if (this.head == null) return "Empty"; // List empty
