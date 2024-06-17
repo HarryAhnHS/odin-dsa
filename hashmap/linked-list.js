@@ -147,5 +147,3 @@ class LinkedList {
         return string;
     }
 }
-
-export default {Node, LinkedList};
