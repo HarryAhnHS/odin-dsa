@@ -91,8 +91,42 @@ class Tree {
         return root;
     }
 
-    delete(value) {
-        
+    delete(value, root = this.root) {
+        // Base case - delete leaf
+        if (root === null) return null;
+        // Traverse down to find value
+        if (value > root.val) root.right = this.delete(value, root.right);
+        else if (value < root.val) root.left = this.delete(value, root.left);
+        else {
+            // Value Matches Root
+            if (root.left === null) {
+                // Has right child only
+                return root.right;
+            }
+            else if (root.right === null) {
+                // Has left child only
+                return root.left;
+            }
+            else {
+                // Has 2 children
+                // Find min value - traverse right side of tree until no left node
+                const min = this.findMinimum(root.right);
+                // Replace current root value with min value
+                root.val = min;
+                // Delete min value - recursive call
+                root.right = this.delete(min, root.right);
+            }
+        }
+        return root;
+    }
+
+    // Find min value of subtree
+    findMinimum(root = this.root) {
+        let current = root;
+        while (current.left != null) {
+            current = current.left;
+        }
+        return current.val;
     }
 
     preOrder(node = this.root, arr = [], callback = null) {
@@ -161,4 +195,8 @@ tree.printTree();
 tree.insert(31)
 tree.insert(22)
 tree.insert(19)
+tree.printTree();
+tree.delete(19);
+tree.printTree();
+tree.delete(60);
 tree.printTree();
