@@ -129,46 +129,76 @@ class Tree {
         return current.val;
     }
 
-    preOrder(node = this.root, arr = [], callback = null) {
-        if (node == null) return;
-    
-        if (callback) callback(node.val);
-        else arr.push(node.val);
-    
-        this.preOrder(node.left, arr);
-        this.preOrder(node.right, arr);
+    // opted for recursive find method
+    find(value, root = this.root) {
+        if (root === null) return "Not found";
 
-        return arr;
+        if (value > root.val) return this.find(value, root.right);
+        else if (value < root.val) return this.find(value, root.left);
+        else {
+            // Found node - return subtree root node
+            return root;
+        }
     }
 
-    inOrder(node = this.root, arr = [], callback = null) {
-        if (node == null) return;
+    // Provide each argument as callback in BFS order, or as an array if no callback 
+    // Iterative - using queue
+    levelOrder(callback = null) {
+        let queue = [];
+        let array = [];
+        queue.push(this.root);
 
-        this.inOrder(node.left, arr);
+        while (queue.length > 0) {
+            let curr = queue[0];
+            if (callback) callback(curr.val);
+            else array.push(curr.val);
+            
+            if (curr.left !== null) queue.push(curr.left);
+            if (curr.right !== null) queue.push(curr.right);
 
-        if (callback) callback(node.val);
-        else arr.push(node.val);
+            queue = queue.slice(1); // FIFO
+        }
+        if (!callback) return array;
+    }
 
-        this.inOrder(node.right, arr);
+    preOrder(callback = null, root = this.root, arr = []) {
+        if (root === null) return;
+    
+        if (callback) callback(root.val);
+        else arr.push(root.val);
+    
+        this.preOrder(callback, root.left, arr);
+        this.preOrder(callback, root.right, arr);
 
-        return arr;
+        if (!callback) return arr;
+    }
+
+    inOrder(callback = null, root = this.root, arr = []) {
+        if (root === null) return;
+    
+        this.inOrder(callback, root.left, arr);
+
+        if (callback) callback(root.val);
+        else arr.push(root.val);
+
+        this.inOrder(callback, root.right, arr);
+
+        if (!callback) return arr;
     }
     
-    postOrder(node = this.root, arr = [], callback = null) {
-        if (node == null) return;
+    postOrder(callback = null, root = this.root, arr = []) {
+        if (root === null) return; 
+    
+        this.postOrder(callback, root.left, arr);
+        this.postOrder(callback, root.right, arr);
 
-        this.postOrder(node.left, arr);
+        if (callback) callback(root.val);
+        else arr.push(root.val);
 
-        this.postOrder(node.right, arr);
-
-        if (callback) callback(node.val);
-        else arr.push(node.val);
-
-        return arr;
+        if (!callback) return arr;
     }
 
     printTree() {
-        console.log(this.root);
         prettyPrint(this.root);
     }
 }
@@ -200,3 +230,15 @@ tree.delete(19);
 tree.printTree();
 tree.delete(60);
 tree.printTree();
+console.log(tree.find(22));
+
+console.log(tree.levelOrder());
+
+function log(thing) {
+    console.log(thing);
+}
+
+console.log("Preorder: " + tree.preOrder());
+console.log("Inorder: " + tree.inOrder());
+console.log("Postorder: " + tree.postOrder());
+
