@@ -150,7 +150,7 @@ class Tree {
 
         while (queue.length > 0) {
             let curr = queue[0];
-            if (callback) callback(curr.val);
+            if (callback) callback(curr);
             else array.push(curr.val);
             
             if (curr.left !== null) queue.push(curr.left);
@@ -164,7 +164,7 @@ class Tree {
     preOrder(callback = null, root = this.root, arr = []) {
         if (root === null) return;
     
-        if (callback) callback(root.val);
+        if (callback) callback(root);
         else arr.push(root.val);
     
         this.preOrder(callback, root.left, arr);
@@ -178,7 +178,7 @@ class Tree {
     
         this.inOrder(callback, root.left, arr);
 
-        if (callback) callback(root.val);
+        if (callback) callback(root);
         else arr.push(root.val);
 
         this.inOrder(callback, root.right, arr);
@@ -192,11 +192,26 @@ class Tree {
         this.postOrder(callback, root.left, arr);
         this.postOrder(callback, root.right, arr);
 
-        if (callback) callback(root.val);
+        if (callback) callback(root);
         else arr.push(root.val);
 
         if (!callback) return arr;
     }
+
+    // max # of edges to a leaf node
+    height = (node, h=-1) => {
+        if (node === null) return h;
+        let left = this.height(node.left, h+1); 
+        let right = this.height(node.right, h+1);
+
+        return Math.max(left,right);
+    }
+
+    depth = (node) => {
+        
+    }
+
+
 
     printTree() {
         prettyPrint(this.root);
@@ -241,4 +256,8 @@ function log(thing) {
 console.log("Preorder: " + tree.preOrder());
 console.log("Inorder: " + tree.inOrder());
 console.log("Postorder: " + tree.postOrder());
+
+console.log(tree.height(tree.find(20)));
+console.log(tree.height(tree.find(50)));
+console.log(tree.height(tree.find(22)));
 
