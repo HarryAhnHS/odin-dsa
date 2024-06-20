@@ -207,18 +207,35 @@ class Tree {
         return Math.max(left,right);
     }
 
-    depth = (node) => {
-        
+    //  # of edges to root node - returns 0 if not found
+    depth = (node, root = this.root, d = 0) => {
+        if (root === null || node === null) return;
+        if (node.val > root.val) return this.depth(node,root.right, d + 1);
+        else if (node.val < root.val) return this.depth(node, root.left, d + 1);
+        else {
+            return d;
+        }
     }
 
+    isBalanced() {
+        let leftHeight = this.height(this.root.left);
+        let rightHeight = this.height(this.root.right);
 
+        return Math.abs(leftHeight - rightHeight) <= 1;
+    }
+
+    rebalance() {
+        let arr = this.inOrder(); // Sorted array
+        this.root = this.buildTree(arr);
+
+    }
 
     printTree() {
         prettyPrint(this.root);
     }
 }
 
-// Utility
+// Pretty Print Utility
 function prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
@@ -232,7 +249,8 @@ function prettyPrint(node, prefix = "", isLeft = true) {
     }
 }
 
-let a = [5,2,3,4,9,7,1,3,1,5,99,6];
+
+// Testing
 let b = [20, 30, 50, 70, 80, 85, 75, 20, 65, 60, 40, 36, 34, 32]
 let tree = new Tree(b);
 
@@ -260,4 +278,27 @@ console.log("Postorder: " + tree.postOrder());
 console.log(tree.height(tree.find(20)));
 console.log(tree.height(tree.find(50)));
 console.log(tree.height(tree.find(22)));
+
+console.log(tree.depth(tree.find(20)));
+console.log(tree.depth(tree.find(50)));
+console.log(tree.depth(tree.find(31)));
+console.log(tree.depth(tree.find(-1)));
+
+console.log(tree.isBalanced());
+
+// Unbalancing tree
+tree.insert(25);
+tree.insert(26);
+tree.insert(23);
+tree.printTree();
+
+console.log(tree.isBalanced()); // Output: false
+
+// Rebalancing tree
+tree.rebalance();
+tree.printTree();
+
+console.log(tree.isBalanced()); // Output: true
+
+
 
