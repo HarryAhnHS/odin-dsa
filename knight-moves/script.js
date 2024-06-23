@@ -1,5 +1,5 @@
 function knightMoves(start, finish) {
-    let pred = new Array(8).fill(null).map(() => new Array(8).fill(null)); // Predecessor array to trace steps (coords)
+    let pred = new Array(8).fill(null).map(() => new Array(8).fill(null)); // Predecessor matrix to trace previous steps
     let visited = new Array(8).fill(null).map(() => []); // Visited graph - adjacency list
     let queue = []; // Queue array to hold all visited nodes
     let path = [];
