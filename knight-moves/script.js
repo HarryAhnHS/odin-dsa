@@ -14,6 +14,7 @@ function knightMoves(start, finish) {
     queue.push(start);
     pred[start[0]][start[1]] = "S"; // Mark start in pred array
 
+    // BFS Search Algorithm
     while (queue.length > 0) {
         let node = queue[0];
         visited[node[0]].push(node[1]);
