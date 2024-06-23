@@ -1,7 +1,7 @@
 function knightMoves(start, finish) {
     let pred = new Array(8).fill(null).map(() => new Array(8).fill(null)); // Predecessor array to trace steps (coords)
-    let visited = new Array(8).fill(null).map(() => []); // Visited array - adjacency list
-    let queue = []; // Queue to hold all visited coords
+    let visited = new Array(8).fill(null).map(() => []); // Visited graph - adjacency list
+    let queue = []; // Queue array to hold all visited nodes
     let path = [];
 
     // Bounds check start and finish
@@ -12,13 +12,11 @@ function knightMoves(start, finish) {
     }
 
     queue.push(start);
-    pred[start[0]][start[1]] = "S"; // Set start in pred
+    pred[start[0]][start[1]] = "S"; // Mark start in pred array
 
     while (queue.length > 0) {
         let node = queue[0];
         visited[node[0]].push(node[1]);
-
-        console.log(node);
 
         if (node[0] == finish[0] && node[1] == finish[1]) {
             // If match, trace back
@@ -31,7 +29,7 @@ function knightMoves(start, finish) {
                 path.unshift(curr); // Add each predecessor step to front of path array
                 steps++;
             }
-            console.log(`Shortest Path took ${steps} step(s): ` + JSON.stringify(path));
+            console.log(`Shortest Path from ${start} to ${finish}: ${JSON.stringify(path)} (${steps} steps)`);
             return path;
         }
         else {
@@ -58,4 +56,6 @@ function knightMoves(start, finish) {
     }
 }
 
-knightMoves([0,1], [1,3]);
+// knightMoves([0,1], [1,3]);
+// knightMoves([0,-1], [1,3]);
+knightMoves([0,0], [7,7]);
